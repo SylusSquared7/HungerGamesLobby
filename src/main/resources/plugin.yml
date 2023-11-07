@@ -1,0 +1,8 @@
+name: HungerGamesLobby
+version: '${project.version}'
+main: dev.sylus.hungergameslobby.HungerGamesLobby
+api-version: '1.18'
+
+commands:
+  hologramTest:
+    description: spawns a hologram
