@@ -1,5 +1,6 @@
 package dev.sylus.hungergameslobby.commands;
 
+import dev.sylus.hungergameslobby.utils.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -12,6 +13,12 @@ import org.bukkit.entity.Player;
 import java.util.logging.Level;
 
 public class HologramTest implements CommandExecutor {
+    Hologram hologram;
+
+    public HologramTest(Hologram hologramInstance){
+        hologram = hologramInstance;
+    }
+
     @Override
     public boolean onCommand(CommandSender sender, Command command, String s, String[] args) {
         if (!(sender instanceof Player)){
@@ -20,10 +27,7 @@ public class HologramTest implements CommandExecutor {
             return true;
         }
         Player player = (Player) sender;
-        ArmorStand hologram = (ArmorStand) player.getWorld().spawnEntity(player.getLocation(), EntityType.ARMOR_STAND);
-        hologram.setVisible(false);
-        hologram.setCustomNameVisible(true);
-        hologram.setCustomName(ChatColor.RED + "TEST HOLOGRAM");
+        hologram.initialiseLeaderbord(player.getLocation());
         return true;
     }
 }
