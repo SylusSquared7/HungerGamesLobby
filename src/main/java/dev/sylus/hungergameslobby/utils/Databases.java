@@ -78,6 +78,7 @@ public class Databases {
     }
 
     public void initialiseDatabase(){
+        Bukkit.getLogger().log(Level.WARNING, "Trying to initialise database");
         try {
             driver = "org.mariadb.jdbc.Driver";
             Class.forName(this.driver);
