@@ -1,27 +1,44 @@
 package dev.sylus.hungergameslobby;
 
+import com.google.common.io.ByteArrayDataInput;
+import com.google.common.io.ByteStreams;
 import dev.sylus.hungergameslobby.commands.HologramTest;
+import dev.sylus.hungergameslobby.game.Game;
+import dev.sylus.hungergameslobby.game.PositionManager;
+import dev.sylus.hungergameslobby.game.Scorebord;
 import dev.sylus.hungergameslobby.utils.Databases;
 import dev.sylus.hungergameslobby.utils.Files;
 import dev.sylus.hungergameslobby.utils.Hologram;
+import dev.sylus.hungergameslobby.utils.ServerUtil;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.messaging.PluginMessageListener;
 
-public final class HungerGamesLobby extends JavaPlugin {
+public final class HungerGamesLobby extends JavaPlugin implements PluginMessageListener {
     Databases databases;
     Files files;
     Hologram hologram;
+    PositionManager positionManager;
+    Scorebord scorebord;
+    Game game;
+    ServerUtil serverUtil;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        serverUtil = new ServerUtil(this);
         files = new Files(this, "worldData.yml");
         databases = new Databases(this, files);
+        game = new Game();
+        positionManager = new PositionManager(files, databases);
+        scorebord = new Scorebord(game, files, positionManager, databases);
         hologram = new Hologram();
 
-
         getCommand("hologramTest").setExecutor(new HologramTest(hologram));
+
+        this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
+        this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
     }
 
     @Override
@@ -33,5 +50,18 @@ public final class HungerGamesLobby extends JavaPlugin {
         }
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+    }
+
+    @Override
+    public void onPluginMessageReceived(String channel, Player player, byte[] message) {
+        if (!channel.equals("BungeeCord")) {
+            return;
+        }
+        ByteArrayDataInput in = ByteStreams.newDataInput(message);
+        String subchannel = in.readUTF();
+        if (subchannel.equals("SomeSubChannel")) {
+            // Use the code sample in the 'Response' sections below to read
+            // the data.
+        }
     }
 }

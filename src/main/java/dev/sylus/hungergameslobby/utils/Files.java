@@ -16,7 +16,7 @@ public class Files {
     private FileConfiguration dataConfig = null;
     private File configFile = null;
 
-    public Files(HungerGamesLobby mainInstance, String fileName){ // Constructor
+    public Files (HungerGamesLobby mainInstance, String fileName) {
         main = mainInstance;
         saveDefultConfig(fileName); // The file name is the name of the YAML file that will be worked with
         // I am doing it like this, so I can re-use this code in future projects

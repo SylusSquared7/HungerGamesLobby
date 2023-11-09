@@ -23,7 +23,7 @@ public class Hologram {
             if (i == 1){
                 armorStand.setCustomName("§b§lOverall Points");
             } else {
-                armorStand.setCustomName("§6Player" + i + " §7- §e" + (6 - i) * 200); // Dummy data
+                armorStand.setCustomName("§6Player" + String.valueOf(i -1) + " §7- §e" + (6 - i) * 200); // Dummy data
             }
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);

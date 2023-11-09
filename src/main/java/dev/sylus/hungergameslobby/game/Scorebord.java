@@ -1,5 +1,7 @@
 package dev.sylus.hungergameslobby.game;
 
+import dev.sylus.hungergameslobby.utils.Databases;
+import dev.sylus.hungergameslobby.utils.Files;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -8,6 +10,20 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
 public class Scorebord {
+    String nextMap;
+    Game game;
+    PositionManager positionManager;
+    Files files;
+    Databases databases;
+    int gameNumber;
+
+    public Scorebord(Game gameInstance, Files filesInstance, PositionManager positionManagerInstance, Databases databasesInstance){
+        game = gameInstance;
+        files = filesInstance;
+        positionManager = positionManagerInstance;
+        databases = databasesInstance;
+        gameNumber = 1; // Remember to change this
+    }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -17,41 +33,48 @@ public class Scorebord {
     public void createBoard(Player player) {
         ScoreboardManager manager = Bukkit.getScoreboardManager();
         Scoreboard board = manager.getNewScoreboard();
-        Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy", ChatColor.translateAlternateColorCodes('&', ChatColor.BOLD + "&6The Hunger Games"));
+        Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
         // obj.setDisplayName("");
 
-        Score score = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━§7");
-        score.setScore(10);
+        Score score = obj.getScore("§fNext map: " + nextMap);
+        score.setScore(7);
 
-        Score score1 = obj.getScore("§bGame§f: " + "/§b3");
-        score1.setScore(9);
+        Score score1 = obj.getScore("§fGame: §a" + gameNumber + "/3");
+        score1.setScore(6);
 
-        Score score2 = obj.getScore("§bPlayers alive§f: " + ChatColor.GREEN);
-        score2.setScore(8);
-
-        Score score3 = obj.getScore("§6Kills§f: ");
-        score3.setScore(7);
-
-        Score score4 = obj.getScore("§fNext event");
-        score4.setScore(6);
-
-        Score score5 = obj.getScore(ChatColor.RED + "test");
+        Score score5 = obj.getScore("§1"); // New line
         score5.setScore(5);
 
-        Score score6 = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━");
-        score6.setScore(4);
+        if (positionManager.getTop3().get(0).equals(player.getName())){
+            Score score4 = obj.getScore("§e§6A§r§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            score4.setScore(4);
+        } else {
+            Score score4 = obj.getScore("§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints());
+            score4.setScore(4);
+        }
 
-        Score score7 = obj.getScore("§aGames score§f: "); // Points gained during this game
-        score7.setScore(3);
+        if (positionManager.getTop3().get(1).equals(player.getName())){
+            Score score3 = obj.getScore("§e§6A§r§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            score3.setScore(3);
+        } else {
+            Score score3 = obj.getScore("§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints());
+            score3.setScore(3);
+        }
 
-        Score score8 = obj.getScore("§aTotal score§f: "); // All points for all games
-        score8.setScore(2);
+        if (positionManager.getTop3().get(2).equals(player.getName())){
+            Score score2 = obj.getScore("§e§6A§r§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            score2.setScore(2);
+        } else {
+            Score score3 = obj.getScore("§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints());
+            score3.setScore(2);
+        }
+        if (!(positionManager.getTop3().contains(player.getName()))){
+            Score score6 = obj.getScore("§7.......");
+            score6.setScore(1);
 
-        Score score9 = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━§c");
-        score9.setScore(1);
-
-        Score score10 = obj.getScore(ChatColor.BLUE + "test");
-        score10.setScore(0);
+            Score score7 = obj.getScore("§e9th §f" + player.getName() + " §a" + databases.getLocalPlayerData(player.getUniqueId()).getCurrentPoints()); // Points gained during this game
+            score7.setScore(0);
+        }
 
         player.setScoreboard(board);
         refreshScorebordAll();
@@ -61,46 +84,50 @@ public class Scorebord {
         for (Player players : Bukkit.getOnlinePlayers()) {
             ScoreboardManager manager = Bukkit.getScoreboardManager();
             Scoreboard board = manager.getNewScoreboard();
-            Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy", ChatColor.translateAlternateColorCodes('&', "&6The Hunger Games"));
+            Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
             // obj.setDisplayName("");
-            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
-            Score score = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━━━━§7");
-            score.setScore(10);
+            Score score = obj.getScore("§fNext map: " + nextMap);
+            score.setScore(7);
 
-            Score score1 = obj.getScore("§bGame§f: " + "numberString" + "/§b3");
-            score1.setScore(9);
+            Score score1 = obj.getScore("§fGame: §a" + gameNumber + "/3");
+            score1.setScore(6);
 
-            Score score2 = obj.getScore("§bPlayers alive§f: " + ChatColor.GREEN + "test");
-            score2.setScore(8);
-
-            Score score3 = obj.getScore("§6Kills§f: " + "test");
-            score3.setScore(7);
-
-            Score score4 = obj.getScore("§fNext event");
-            score4.setScore(6);
-
-            Score score5 = obj.getScore(ChatColor.RED + "test");
+            Score score5 = obj.getScore("§1"); // New line
             score5.setScore(5);
 
-            Score score6 = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━━━━"); // This is not showing for some reason
-            score6.setScore(4);
+            if (positionManager.getTop3().get(0).equals(players.getName())){
+                Score score4 = obj.getScore("§e§6A§r§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                score4.setScore(4);
+            } else {
+                Score score4 = obj.getScore("§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints());
+                score4.setScore(4);
+            }
 
-            Score score7 = obj.getScore("§aGames score§f: " + "test");
-            score7.setScore(3);
+            if (positionManager.getTop3().get(1).equals(players.getName())){
+                Score score3 = obj.getScore("§e§6A§r§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                score3.setScore(3);
+            } else {
+                Score score3 = obj.getScore("§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints());
+                score3.setScore(3);
+            }
 
-            Score score8 = obj.getScore("§aTotal score§f: " + "test");
-            score8.setScore(2);
+            if (positionManager.getTop3().get(2).equals(players.getName())){
+                Score score2 = obj.getScore("§e§6A§r§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                score2.setScore(2);
+            } else {
+                Score score3 = obj.getScore("§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints());
+                score3.setScore(2);
+            }
+            if (!(positionManager.getTop3().contains(players.getName()))){
+                Score score6 = obj.getScore("§7.......");
+                score6.setScore(1);
 
-            Score score9 = obj.getScore(ChatColor.WHITE + "━━━━━━━━━━━━━━━━━━━━━§c");
-            score9.setScore(1);
-
-            Score score10 = obj.getScore(ChatColor.BLUE + "serverCode");
-            score10.setScore(0);
+                Score score7 = obj.getScore("§e9th §f" + players.getName() + " §a" + databases.getLocalPlayerData(players.getUniqueId()).getCurrentPoints()); // Points gained during this game
+                score7.setScore(0);
+            }
 
             players.setScoreboard(board);
         }
     }
-
-
 }
