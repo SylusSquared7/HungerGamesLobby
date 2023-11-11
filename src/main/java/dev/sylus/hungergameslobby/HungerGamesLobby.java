@@ -2,9 +2,12 @@ package dev.sylus.hungergameslobby;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import dev.sylus.hungergameslobby.commands.GiveMachineTrident;
 import dev.sylus.hungergameslobby.commands.HologramTest;
+import dev.sylus.hungergameslobby.commands.ScorebordTest;
 import dev.sylus.hungergameslobby.enums.GameSatate;
 import dev.sylus.hungergameslobby.events.PlayerJoin;
+import dev.sylus.hungergameslobby.events.TridentMachineGun;
 import dev.sylus.hungergameslobby.game.Game;
 import dev.sylus.hungergameslobby.game.PositionManager;
 import dev.sylus.hungergameslobby.game.Scorebord;
@@ -43,10 +46,13 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
 
         databases.initialiseDatabase();
 
-        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases), this);
         getServer().getPluginManager().registerEvents(scorebord, this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases), this);
+        getServer().getPluginManager().registerEvents(new TridentMachineGun(this), this);
 
         getCommand("hologramTest").setExecutor(new HologramTest(hologram));
+        getCommand("scorebordTest").setExecutor(new ScorebordTest(scorebord));
+        getCommand("giveMachineGun").setExecutor(new GiveMachineTrident());
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);

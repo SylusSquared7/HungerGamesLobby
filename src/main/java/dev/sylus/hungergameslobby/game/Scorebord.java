@@ -30,6 +30,12 @@ public class Scorebord implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
+        if (!(databases.isInDatabase(event.getPlayer().getUniqueId()))){
+            databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
+        }
+        if (!(databases.isPlayerInLocalData(event.getPlayer().getUniqueId()))){
+            databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
+        }
         createBoard(event.getPlayer());
     }
 
@@ -38,6 +44,7 @@ public class Scorebord implements Listener {
         Scoreboard board = manager.getNewScoreboard();
         Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
         // obj.setDisplayName("");
+        obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         Score score = obj.getScore("§fNext map: " + nextMap);
         score.setScore(7);
@@ -49,7 +56,7 @@ public class Scorebord implements Listener {
         score5.setScore(5);
 
         if (positionManager.getTop3().get(0).equals(player.getName())){
-            Score score4 = obj.getScore("§e§6A§r§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            Score score4 = obj.getScore("§6§kA§r§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
             score4.setScore(4);
         } else {
             Score score4 = obj.getScore("§e1st §f" + positionManager.getTop3().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(0)).getUniqueId()).getCurrentPoints());
@@ -57,7 +64,7 @@ public class Scorebord implements Listener {
         }
 
         if (positionManager.getTop3().get(1).equals(player.getName())){
-            Score score3 = obj.getScore("§e§6A§r§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            Score score3 = obj.getScore("§6§kA §r§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
             score3.setScore(3);
         } else {
             Score score3 = obj.getScore("§e2nd §f" + positionManager.getTop3().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(1)).getUniqueId()).getCurrentPoints());
@@ -65,19 +72,19 @@ public class Scorebord implements Listener {
         }
 
         if (positionManager.getTop3().get(2).equals(player.getName())){
-            Score score2 = obj.getScore("§e§6A§r§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            Score score2 = obj.getScore("§6§kA§r§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
             score2.setScore(2);
         } else {
             Score score3 = obj.getScore("§e3rd §f" + positionManager.getTop3().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getTop3().get(2)).getUniqueId()).getCurrentPoints());
             score3.setScore(2);
         }
-        if (!(positionManager.getTop3().contains(player.getName()))){
+      //  if (!(positionManager.getTop3().contains(player.getName()))){
             Score score6 = obj.getScore("§7.......");
             score6.setScore(1);
 
             Score score7 = obj.getScore("§e9th §f" + player.getName() + " §a" + databases.getLocalPlayerData(player.getUniqueId()).getCurrentPoints()); // Points gained during this game
             score7.setScore(0);
-        }
+    //    }
 
         player.setScoreboard(board);
         refreshScorebordAll();
@@ -89,6 +96,7 @@ public class Scorebord implements Listener {
             Scoreboard board = manager.getNewScoreboard();
             Objective obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
             // obj.setDisplayName("");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             Score score = obj.getScore("§fNext map: " + nextMap);
             score.setScore(7);

@@ -26,6 +26,10 @@ public class PlayerJoin implements Listener {
             databases.addNewPlayer(player.getUniqueId(), player.getName());
         }
 
+        if (!(databases.isPlayerInLocalData(player.getUniqueId()))){
+            databases.addPlayerToLocalData(player.getUniqueId());
+        }
+
         Bukkit.getLogger().log(Level.WARNING, "Trying to add player data to localData");
         if (!(databases.isPlayerInLocalData(player.getUniqueId()))){
             databases.addPlayerToLocalData(player.getUniqueId());
