@@ -6,6 +6,17 @@ api-version: '1.18'
 commands:
   hologramTest:
     description: spawns a hologram
+    usage: /hologramTest
 
   scorebordTest:
     description: test command
+    usage: /scorebordTest
+
+  giveMachineGun:
+    description: Gives the player a trident that acts like a machine gun
+    usage: /giveMachineGun
+    permission: hungerGamesLobby.admin
+
+permissions:
+  hungerGamesLobby.admin:
+    description: allows the player to use administrator commands
