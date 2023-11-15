@@ -2,6 +2,7 @@ package dev.sylus.hungergameslobby.game;
 
 import dev.sylus.hungergameslobby.utils.Databases;
 import dev.sylus.hungergameslobby.utils.Files;
+import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -11,6 +12,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.scoreboard.*;
 
 import java.util.EventListener;
+import java.util.logging.Level;
 
 public class Scorebord implements Listener {
     String nextMap;
@@ -88,6 +90,7 @@ public class Scorebord implements Listener {
 
         player.setScoreboard(board);
         refreshScorebordAll();
+        Logging.log(Level.INFO, "Created the scorebord");
     }
 
     public void refreshScorebordAll() {

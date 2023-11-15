@@ -26,6 +26,7 @@ public class Files {
     public void reloadConfig(String fileName){
         if (configFile == null){
             configFile = new File(main.getDataFolder(), fileName);
+            Logging.log(Level.WARNING, "Config file in null, intialising");
         }
         dataConfig = YamlConfiguration.loadConfiguration(configFile);
         InputStream defaultStream = main.getResource(fileName);
@@ -34,12 +35,14 @@ public class Files {
             dataConfig.setDefaults(defaultConfig);
         } else {
             Bukkit.getLogger().log(Level.SEVERE, "File: " + fileName + " is NULL");
+            Logging.log(Level.SEVERE, "Files generated an error: " + fileName + " is NULL");
         }
     }
 
     public FileConfiguration getConfig(String fileName){
         if (dataConfig == null){
             reloadConfig(fileName);
+            Logging.log(Level.WARNING, "Files generated an exception: dataConfig is null, re initialising");
         }
         return dataConfig;
     }

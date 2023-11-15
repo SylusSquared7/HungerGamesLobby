@@ -2,6 +2,7 @@ package dev.sylus.hungergameslobby.events;
 
 import dev.sylus.hungergameslobby.game.Game;
 import dev.sylus.hungergameslobby.utils.Databases;
+import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
@@ -28,16 +29,11 @@ public class PlayerJoin implements Listener {
 
         if (!(databases.isPlayerInLocalData(player.getUniqueId()))){
             databases.addPlayerToLocalData(player.getUniqueId());
-        }
-
-        Bukkit.getLogger().log(Level.WARNING, "Trying to add player data to localData");
-        if (!(databases.isPlayerInLocalData(player.getUniqueId()))){
-            databases.addPlayerToLocalData(player.getUniqueId());
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(databases.getLocalPlayerData(player.getUniqueId()).getCurrentPoints()) + " This is from line 43 of JoinAndLeave");
+            player.sendMessage(ChatColor.LIGHT_PURPLE + "Welcome to the HungerGames \nThe first game will start soon \nPlease wait");
+            Logging.log(Level.INFO, "Player: " + player.getName() + " with UUID: " + player.getUniqueId().toString() + " joined the server for the first time");
         } else {
-            Bukkit.getLogger().log(Level.WARNING, "Player already in the Local data system joined");
+            Logging.log(Level.INFO, "Player: " + player.getName() + " with UUID: " + player.getUniqueId().toString() + " joined");
         }
 
-        player.sendMessage(ChatColor.LIGHT_PURPLE + "Welcome to the server :)");
     }
 }

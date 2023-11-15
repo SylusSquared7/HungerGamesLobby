@@ -9,6 +9,7 @@ import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
 
 public class Hologram {
     ArmorStand hologram;
@@ -30,6 +31,7 @@ public class Hologram {
             armorStands.add(armorStand);
             yOffset -= 0.3; // Adjust the vertical spacing as needed
         }
+        Logging.log(Level.INFO, "Created the armourstand scoreboard");
     }
 
     public void updateLeaderbord(){

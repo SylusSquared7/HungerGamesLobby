@@ -40,10 +40,16 @@ public class Databases {
             Score: int(255) // Not used
      */
 
-    public void addPlayerToLocalData(UUID newUUID){
-        this.playerUUID = newUUID;
+    public void addPlayerToLocalData(UUID targetUUID){
+        this.playerUUID = targetUUID;
+
+        if (getPlayerData(playerUUID).get(2).equals( "error")){
+            Logging.log(Level.WARNING, "Database returned an error while trying to get the points for: " + targetUUID.toString());
+        }
+
         playerData = new PlayerData(playerUUID,  Integer.parseInt(getPlayerData(playerUUID).get(2)), 0, 0);
         localDataMap.put(playerUUID, playerData);
+        Logging.log(Level.INFO, "Attempted to add the UUID: " + targetUUID.toString() + " to the local player data");
     }
 
     public boolean isPlayerInLocalData(UUID uuid){
@@ -54,6 +60,7 @@ public class Databases {
         PlayerData retrivedData = localDataMap.get(uuid);
         if (retrivedData == null){
             Bukkit.getLogger().log(Level.SEVERE, "Retrived data is null");
+            Logging.log(Level.SEVERE, "The data retrived for: " + uuid.toString() + " is null");
         }
         return retrivedData;
     }
@@ -75,10 +82,12 @@ public class Databases {
 
     public void addPointsToDB (UUID uuid){
         updateData(uuid, getLocalPlayerData(uuid).getGamePoints());
+        Logging.log(Level.INFO, "Trying to sync the database and local data");
     }
 
     public void initialiseDatabase(){
         Bukkit.getLogger().log(Level.WARNING, "Trying to initialise database");
+        Logging.log(Level.INFO, "Initialising the database connection");
         try {
             driver = "org.mariadb.jdbc.Driver";
             Class.forName(this.driver);
@@ -87,19 +96,24 @@ public class Databases {
                     "jdbc:mariadb://localhost:3306/playerData",
                     username, password
             );
-        } catch (SQLException error) {
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
-        } catch (ClassNotFoundException error) {
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
+        } catch (SQLException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, "Databases generated an error: " + String.valueOf(exception));
+        } catch (ClassNotFoundException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, "Databases generated an error: " + String.valueOf(exception));
         }
+        Logging.log(Level.INFO, "Initialised the database connection");
     }
 
     public void closeConnection(){
         try {
             Bukkit.getLogger().log(Level.WARNING, "Closed the database connection");
             connection.close();
-        } catch (SQLException error) {
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
+            Logging.log(Level.INFO, "Closed the database connection");
+        } catch (SQLException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, "Databases generated an error: " + String.valueOf(exception));
         }
     }
 
@@ -124,6 +138,7 @@ public class Databases {
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setString(1, uuid.toString());
             ResultSet resultSet = preparedStatement.executeQuery();
+            Logging.log(Level.INFO, "Checking if player with the UUID: " + uuid + " is in the database");
 
             if (resultSet.next()){
                 resultSet.close();
@@ -133,8 +148,9 @@ public class Databases {
             resultSet.close();
             preparedStatement.close();
             return false;
-        } catch (SQLException error) {
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
+        } catch (SQLException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, "Databases generated an error: " + String.valueOf(exception));
         }
         return false;
     }
@@ -148,6 +164,7 @@ public class Databases {
 
         if (connection == null){
             initialiseDatabase();
+            Logging.log(Level.WARNING, "Connection is null, trying to initialise the connection");
         }
 
         try {
@@ -170,8 +187,9 @@ public class Databases {
 
             resultSet.close();
             preparedStatement.close();
-        } catch (SQLException error){
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
+        } catch (SQLException exception){
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, String.valueOf(exception));
             return null;
         }
 
@@ -181,6 +199,7 @@ public class Databases {
     public void addNewPlayer(UUID UUID, String name){ // Remember to turn the UUID into a string
         if (connection == null){
             initialiseDatabase();
+            Logging.log(Level.WARNING, "Connection is null, trying to initialise");
         }
         try {
             PreparedStatement statement = connection.prepareStatement("INSERT INTO dataTable(UUID, Name, Kills, Points, Score) VALUES (?, ?, ?, ?, ?)");
@@ -191,8 +210,9 @@ public class Databases {
             statement.setInt(5, 0);
             statement.executeUpdate();
             statement.close();
-        } catch (SQLException error) {
-            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(error));
+        } catch (SQLException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+            Logging.log(Level.SEVERE, "Databases generated an error: " + String.valueOf(exception));
         }
     }
 

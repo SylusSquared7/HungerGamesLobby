@@ -11,10 +11,7 @@ import dev.sylus.hungergameslobby.events.TridentMachineGun;
 import dev.sylus.hungergameslobby.game.Game;
 import dev.sylus.hungergameslobby.game.PositionManager;
 import dev.sylus.hungergameslobby.game.Scorebord;
-import dev.sylus.hungergameslobby.utils.Databases;
-import dev.sylus.hungergameslobby.utils.Files;
-import dev.sylus.hungergameslobby.utils.Hologram;
-import dev.sylus.hungergameslobby.utils.ServerUtil;
+import dev.sylus.hungergameslobby.utils.*;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,11 +28,13 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
     PositionManager positionManager;
     Scorebord scorebord;
     Game game;
+    Logging logging;
     ServerUtil serverUtil;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        logging = new Logging();
         serverUtil = new ServerUtil(this);
         files = new Files(this, "worldData.yml");
         databases = new Databases(this, files);
