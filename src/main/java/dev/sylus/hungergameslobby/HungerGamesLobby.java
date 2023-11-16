@@ -81,12 +81,12 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
     @Override
     public void onDisable() {
         // Plugin shutdown logic
-        databases.closeConnection();
         for (Player players: Bukkit.getOnlinePlayers()){ // Updates all points gotten in the game to the database
             databases.addPointsToDB(players.getUniqueId()); // Updates the database with the local data
         }
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+        databases.closeConnection();
         Logging.log(Level.INFO, "Plugin stopped, ending");
     }
 
