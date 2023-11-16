@@ -8,9 +8,9 @@ commands:
     description: spawns a hologram
     usage: /hologramTest
 
-  scorebordTest:
+  scoreboardTest:
     description: test command
-    usage: /scorebordTest
+    usage: /scoreboardTest
 
   giveMachineGun:
     description: Gives the player a trident that acts like a machine gun

@@ -2,13 +2,16 @@ package dev.sylus.hungergameslobby;
 
 import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
+import dev.sylus.hungergameslobby.Files.Databases;
+import dev.sylus.hungergameslobby.Files.Files;
 import dev.sylus.hungergameslobby.commands.GiveMachineTrident;
 import dev.sylus.hungergameslobby.commands.HologramTest;
 import dev.sylus.hungergameslobby.commands.ScorebordTest;
-import dev.sylus.hungergameslobby.enums.GameSatate;
+import dev.sylus.hungergameslobby.enums.GameState;
 import dev.sylus.hungergameslobby.events.PlayerJoin;
 import dev.sylus.hungergameslobby.events.TridentMachineGun;
 import dev.sylus.hungergameslobby.game.Game;
+import dev.sylus.hungergameslobby.game.Hologram;
 import dev.sylus.hungergameslobby.game.PositionManager;
 import dev.sylus.hungergameslobby.game.Scorebord;
 import dev.sylus.hungergameslobby.utils.*;
@@ -33,13 +36,14 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
 
     @Override
     public void onEnable() {
+        Logging.log(Level.INFO, "Plugin started and beginning initialising");
         // Plugin startup logic
         logging = new Logging();
         serverUtil = new ServerUtil(this);
         files = new Files(this, "worldData.yml");
         databases = new Databases(this, files);
         game = new Game();
-        positionManager = new PositionManager(files, databases);
+        positionManager = new PositionManager(databases);
         scorebord = new Scorebord(game, files, positionManager, databases);
         hologram = new Hologram();
 
@@ -50,15 +54,16 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         getServer().getPluginManager().registerEvents(new TridentMachineGun(this), this);
 
         getCommand("hologramTest").setExecutor(new HologramTest(hologram));
-        getCommand("scorebordTest").setExecutor(new ScorebordTest(scorebord));
+        getCommand("scoreboardTest").setExecutor(new ScorebordTest(scorebord));
         getCommand("giveMachineGun").setExecutor(new GiveMachineTrident());
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
 
-        game.setState(GameSatate.PREGAME);
-        Bukkit.getLogger().log(Level.INFO, "CoreLoaded");
+        game.setState(GameState.PREGAME);
+        Bukkit.getLogger().log(Level.INFO, "Lobby loaded");
         Bukkit.getLogger().log(Level.INFO, "Game state changed to: " + game.getState());
+        Logging.log(Level.INFO, "Started initialised everything");
 
         try {
             File myObj = new File("filename.txt");
@@ -82,6 +87,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         }
         this.getServer().getMessenger().unregisterOutgoingPluginChannel(this);
         this.getServer().getMessenger().unregisterIncomingPluginChannel(this);
+        Logging.log(Level.INFO, "Plugin stopped, ending");
     }
 
     @Override
@@ -89,6 +95,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         if (!channel.equals("BungeeCord")) {
             return;
         }
+        Logging.log(Level.INFO, "Received a message");
         ByteArrayDataInput in = ByteStreams.newDataInput(message);
         String subchannel = in.readUTF();
         if (subchannel.equals("SomeSubChannel")) {

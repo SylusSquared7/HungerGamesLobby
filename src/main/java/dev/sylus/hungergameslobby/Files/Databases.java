@@ -1,6 +1,8 @@
-package dev.sylus.hungergameslobby.utils;
+package dev.sylus.hungergameslobby.Files;
 
 import dev.sylus.hungergameslobby.HungerGamesLobby;
+import dev.sylus.hungergameslobby.utils.Logging;
+import dev.sylus.hungergameslobby.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 

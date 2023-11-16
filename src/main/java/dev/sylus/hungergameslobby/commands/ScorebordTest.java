@@ -1,7 +1,6 @@
 package dev.sylus.hungergameslobby.commands;
 
 import dev.sylus.hungergameslobby.game.Scorebord;
-import dev.sylus.hungergameslobby.utils.Hologram;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;

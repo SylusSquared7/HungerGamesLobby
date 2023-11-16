@@ -1,9 +1,8 @@
 package dev.sylus.hungergameslobby.events;
 
 import dev.sylus.hungergameslobby.game.Game;
-import dev.sylus.hungergameslobby.utils.Databases;
+import dev.sylus.hungergameslobby.Files.Databases;
 import dev.sylus.hungergameslobby.utils.Logging;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -23,6 +22,7 @@ public class PlayerJoin implements Listener {
     @EventHandler
     public void OnPlayerJoin(PlayerJoinEvent event){
         Player player = event.getPlayer();
+
         if (!(databases.isInDatabase(player.getUniqueId()))){
             databases.addNewPlayer(player.getUniqueId(), player.getName());
         }

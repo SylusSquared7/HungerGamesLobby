@@ -1,5 +1,6 @@
-package dev.sylus.hungergameslobby.utils;
+package dev.sylus.hungergameslobby.game;
 
+import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -18,13 +19,13 @@ public class Hologram {
         World world = Bukkit.getWorld("world");
         double yOffset = 0; // Adjust the Y offset as needed
 
-        for (int i = 1; i <= 6; i++) {
+        for (int i = 0; i <= 6; i++) {
             ArmorStand armorStand = (ArmorStand) startLocation.getWorld().spawnEntity(startLocation.clone().add(0, yOffset, 0), EntityType.ARMOR_STAND); // spawn(startLocation.clone().add(0, yOffset, 0), ArmorStand.class);
             armorStand.setVisible(false);
-            if (i == 1){
+            if (i == 0){
                 armorStand.setCustomName("§b§lOverall Points");
             } else {
-                armorStand.setCustomName("§6Player" + String.valueOf(i -1) + " §7- §e" + (6 - i) * 200); // Dummy data
+                armorStand.setCustomName("§6Player" + String.valueOf(i) + " §7- §e" + (6 - i) * 200); // Dummy data
             }
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);
