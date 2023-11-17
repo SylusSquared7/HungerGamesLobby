@@ -88,7 +88,7 @@ public class Scorebord implements Listener {
 
         player.setScoreboard(board);
         refreshScorebordAll();
-        Logging.log(Level.INFO, "Created the scorebord");
+        Logging.log(Level.INFO, "Created the scoreboard");
     }
 
     public void refreshScorebordAll() {

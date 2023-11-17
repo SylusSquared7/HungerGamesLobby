@@ -23,6 +23,7 @@ public class Databases {
     Map<UUID, PlayerData> localDataMap = new ConcurrentHashMap<>();
     UUID playerUUID;
     PlayerData playerData;
+    ArrayList<String> leaderbord = new ArrayList<>();
 
     public Databases(HungerGamesLobby hungerGamesLobby, Files filesInstance){ // Constructor
         main = hungerGamesLobby;
@@ -278,6 +279,22 @@ public class Databases {
     public String getTotalPoints(Player player){
         ArrayList<String> data = getPlayerData(player.getUniqueId()); // Name, Kills, Points, Score What's the difference between points and score?
         return data.get(2);
+    }
+
+    public ArrayList<String> getLeaderbord(){
+        String statement = "SELECT * FROM dataTable ORDER BY Points";
+        try {
+            PreparedStatement preparedStatement = connection.prepareStatement(statement);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()){
+                String uuid = resultSet.getString("UUID");
+                leaderbord.add(uuid);
+            }
+        } catch (SQLException exception) {
+            Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
+        }
+        return leaderbord;
     }
 
 }
