@@ -76,7 +76,7 @@ public class Scorebord implements Listener {
             score2.setScore(2);
         } else {
             Score score3 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints());
-            score3.setScore(2);
+            score3.setScore(2);  // Score2 is never set if this condition fails
         }
       //  if (!(positionManager.getPlayerLeaderbord().contains(player.getName()))){
             Score score6 = obj.getScore("§7.......");

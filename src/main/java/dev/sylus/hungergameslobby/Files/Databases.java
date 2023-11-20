@@ -30,6 +30,16 @@ public class Databases {
         files = filesInstance;
         username = files.getConfig("config.yml").getString("database.username");
         password = files.getConfig("config.yml").getString("database.password");
+
+        initialiseDatabase();
+
+        if (getLeaderbord().size() < 5){ // There are less than 5 players in the database, add dummy players
+            for (int i = getLeaderbord().size(); i == 5; i++){
+                UUID uuid = UUID.randomUUID();
+                addNewPlayer(uuid, "Null");
+                addPlayerToLocalData(uuid);
+            }
+        }
     }
 
     /*
@@ -47,7 +57,8 @@ public class Databases {
         this.playerUUID = targetUUID;
 
         if (getPlayerData(playerUUID).get(2).equals( "error")){
-            Logging.log(Level.WARNING, "Database returned an error while trying to get the points for: " + targetUUID.toString());
+            Logging.log(Level.SEVERE, "Database returned an error while trying to get the points for: " + targetUUID.toString());
+            Bukkit.getLogger().log(Level.SEVERE, "Database returned an error while trying to get the points for: " + targetUUID.toString());
         }
 
         playerData = new PlayerData(playerUUID,  Integer.parseInt(getPlayerData(playerUUID).get(2)), 0, 0);

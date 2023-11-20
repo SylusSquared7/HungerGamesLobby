@@ -36,7 +36,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
 
     @Override
     public void onEnable() {
-        Logging.log(Level.INFO, "Plugin started and beginning initialising");
+        Logging.log(Level.INFO, "Plugin started and is beginning initialising");
         // Plugin startup logic
         logging = new Logging();
         serverUtil = new ServerUtil(this);
@@ -46,8 +46,6 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         positionManager = new PositionManager(databases);
         scorebord = new Scorebord(game, files, positionManager, databases);
         hologram = new Hologram();
-
-        databases.initialiseDatabase();
 
         getServer().getPluginManager().registerEvents(scorebord, this);
         getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases), this);
@@ -62,24 +60,23 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
 
         game.setState(GameState.PREGAME);
         Bukkit.getLogger().log(Level.INFO, "Lobby loaded");
-        Bukkit.getLogger().log(Level.INFO, "Game state changed to: " + game.getState());
-        Logging.log(Level.INFO, "Started initialised everything");
+        Logging.log(Level.INFO, "Finished initialised everything");
 
         try {
             File myObj = new File("filename.txt");
             if (myObj.createNewFile()) {
-                System.out.println("File created: " + myObj.getName());
+                Logging.log(Level.INFO, "File created: " + myObj.getName());
             } else {
-                System.out.println("File already exists.");
             }
-        } catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
+        } catch (IOException exception) {
+            Logging.log(Level.SEVERE, "An error occurred while trying to create a file: " + exception);
+            Bukkit.getLogger().log(Level.SEVERE, "An error occurred while trying to create a file: " + exception);
         }
     }
 
     @Override
     public void onDisable() {
+        Logging.log(Level.INFO, "Plugin disabled, de-initialising");
         // Plugin shutdown logic
         for (Player players: Bukkit.getOnlinePlayers()){ // Updates all points gotten in the game to the database
             databases.addPointsToDB(players.getUniqueId()); // Updates the database with the local data
