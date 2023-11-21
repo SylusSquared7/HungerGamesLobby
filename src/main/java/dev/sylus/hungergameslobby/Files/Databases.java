@@ -23,7 +23,7 @@ public class Databases {
     Map<UUID, PlayerData> localDataMap = new ConcurrentHashMap<>();
     UUID playerUUID;
     PlayerData playerData;
-    ArrayList<String> leaderbord = new ArrayList<>();
+    ArrayList<String> leaderboard = new ArrayList<>();
 
     public Databases(HungerGamesLobby hungerGamesLobby, Files filesInstance){ // Constructor
         main = hungerGamesLobby;
@@ -33,8 +33,8 @@ public class Databases {
 
         initialiseDatabase();
 
-        if (getLeaderbord().size() < 5){ // There are less than 5 players in the database, add dummy players
-            for (int i = getLeaderbord().size(); i == 5; i++){
+        if (getLeaderboard().size() < 5){ // There are less than 5 players in the database, add dummy players
+            for (int i = getLeaderboard().size(); i == 5; i++){
                 UUID uuid = UUID.randomUUID();
                 addNewPlayer(uuid, "Null");
                 addPlayerToLocalData(uuid);
@@ -98,6 +98,16 @@ public class Databases {
         updateData(uuid, getLocalPlayerData(uuid).getGamePoints());
         Logging.log(Level.INFO, "Trying to sync the database and local data");
     }
+
+    public void resetPoints(UUID uuid){
+        PlayerData playersData = getLocalPlayerData(uuid);
+        playersData.setOverallPoints(0);
+        playersData.setGamePoints(0);
+        addPointsToDB(uuid);
+    }
+    // Local Data stuff ^^
+    // -----------------------------------------------------------------------------------------------
+    // Database stuff
 
     public void initialiseDatabase(){
         Bukkit.getLogger().log(Level.WARNING, "Trying to initialise database");
@@ -248,6 +258,7 @@ public class Databases {
         }
     }
 
+    @Deprecated
     public void addPointstoDB(UUID uuid, int pointsToAdd){
         if (connection == null){
             initialiseDatabase();
@@ -269,7 +280,8 @@ public class Databases {
         }
     }
 
-    public void resetPoints(UUID uuid){
+    @Deprecated
+    public void resetPointsDatabase(UUID uuid){
         if (connection == null){
             initialiseDatabase();
         }
@@ -292,7 +304,7 @@ public class Databases {
         return data.get(2);
     }
 
-    public ArrayList<String> getLeaderbord(){
+    public ArrayList<String> getLeaderboard(){
         String statement = "SELECT * FROM dataTable ORDER BY Points";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
@@ -300,12 +312,12 @@ public class Databases {
 
             while (resultSet.next()){
                 String uuid = resultSet.getString("UUID");
-                leaderbord.add(uuid);
+                leaderboard.add(uuid);
             }
         } catch (SQLException exception) {
             Bukkit.getLogger().log(Level.SEVERE, String.valueOf(exception));
         }
-        return leaderbord;
+        return leaderboard;
     }
 
 }

@@ -8,20 +8,21 @@ import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
 public class ServerUtil {
-    HungerGamesLobby main;
+   static HungerGamesLobby main;
     public ServerUtil(HungerGamesLobby mainInstance){
         main = mainInstance;
     }
 
-    public void sendPlayerToServer(Player player, String serverName){
+    public static void sendPlayerToServer(Player player, String serverName){
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(serverName);
+        player.setScoreboard(Bukkit.getScoreboardManager().getNewScoreboard());
         // Player player = Iterables.getFirst(Bukkit.getOnlinePlayers(), null); to do it for all players
         player.sendPluginMessage(main, "BungeeCord", out.toByteArray());
     }
-
-    public void sendAllPlayers(String serverName){
+    @Deprecated
+    public void sendAllPlayers(String serverName){ // DO NOT USE THIS
         ByteArrayDataOutput out = ByteStreams.newDataOutput();
         out.writeUTF("Connect");
         out.writeUTF(serverName);

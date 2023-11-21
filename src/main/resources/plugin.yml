@@ -7,10 +7,12 @@ commands:
   hologramTest:
     description: spawns a hologram
     usage: /hologramTest
+    permission: hungerGamesLobby.admin
 
-  scoreboardTest:
-    description: test command
-    usage: /scoreboardTest
+  sendPlayer:
+    description: Sends the player to another server
+    usage: /sendPlayer <args>
+    permission: hungerGamesLobby.admin
 
   giveMachineGun:
     description: Gives the player a trident that acts like a machine gun
