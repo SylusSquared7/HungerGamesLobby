@@ -67,7 +67,7 @@ public class Scorebord implements Listener {
         }
 
         if (positionManager.getPlayerLeaderbord().get(1).equals(player.getName())){
-            Score score3 = obj.getScore("§6§kA §r§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            Score score3 = obj.getScore("§6§kA§r§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
             score3.setScore(3);
         } else {
             Score score3 = obj.getScore("§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints());
@@ -137,7 +137,6 @@ public class Scorebord implements Listener {
             //    }
 
             players.setScoreboard(board);
-            refreshScorebordAll();
             Logging.log(Level.INFO, "Created the scoreboard");
 
             players.setScoreboard(board);

@@ -38,8 +38,11 @@ public class Databases {
                 UUID uuid = UUID.randomUUID();
                 addNewPlayer(uuid, "Null");
                 addPlayerToLocalData(uuid);
+                Bukkit.getLogger().log(Level.INFO, "Created a dummy player with the UUID of: " + uuid);
+                Logging.log(Level.INFO, "Created a dummy player with the UUID of: " + uuid);
             }
         }
+
     }
 
     /*
@@ -52,6 +55,14 @@ public class Databases {
             Points: int(255) // Points that save across all games
             Score: int(255) // Not used
      */
+
+    public void initialiseLocalData(){
+        ArrayList<String> databaseLeaderbord = getLeaderboard();
+        for (int i = 0; i < databaseLeaderbord.size(); i++){
+            addPlayerToLocalData(UUID.fromString(databaseLeaderbord.get(0)));
+            Logging.log(Level.INFO, "Added a tempory player to the local data, UUID: " + databaseLeaderbord.get(0));
+        }
+    }
 
     public void addPlayerToLocalData(UUID targetUUID){
         this.playerUUID = targetUUID;
@@ -179,7 +190,7 @@ public class Databases {
         return false;
     }
 
-    public ArrayList<String> getPlayerData(UUID uuid){
+    private ArrayList<String> getPlayerData(UUID uuid){
         String name = "error";
         String kills = "error";
         String points = "error";
@@ -240,7 +251,7 @@ public class Databases {
         }
     }
 
-    public void updateData(UUID uuid, int points){
+    private void updateData(UUID uuid, int points){
         if (connection == null){
             initialiseDatabase();
         }
@@ -259,7 +270,7 @@ public class Databases {
     }
 
     @Deprecated
-    public void addPointstoDB(UUID uuid, int pointsToAdd){
+    private void addPointstoDB(UUID uuid, int pointsToAdd){
         if (connection == null){
             initialiseDatabase();
         }
@@ -281,7 +292,7 @@ public class Databases {
     }
 
     @Deprecated
-    public void resetPointsDatabase(UUID uuid){
+    private void resetPointsDatabase(UUID uuid){
         if (connection == null){
             initialiseDatabase();
         }
@@ -299,12 +310,12 @@ public class Databases {
     }
 
 
-    public String getTotalPoints(Player player){
+    private String getTotalPoints(Player player){
         ArrayList<String> data = getPlayerData(player.getUniqueId()); // Name, Kills, Points, Score What's the difference between points and score?
         return data.get(2);
     }
 
-    public ArrayList<String> getLeaderboard(){
+    private ArrayList<String> getLeaderboard(){
         String statement = "SELECT * FROM dataTable ORDER BY Points";
         try {
             PreparedStatement preparedStatement = connection.prepareStatement(statement);
