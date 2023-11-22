@@ -27,8 +27,6 @@ public class SetState implements TabCompleter, CommandExecutor {
         if (!(sender instanceof Player)) {
             Bukkit.getLogger().log(Level.WARNING, "Non player tried to execute a player only command");
             return true;
-        } else if (!(sender.hasPermission("hungergamescore.setstate"))) {
-            sender.sendMessage(ChatColor.RED + "You do not have the permission to use this command");
         }
 
         if (args == null){

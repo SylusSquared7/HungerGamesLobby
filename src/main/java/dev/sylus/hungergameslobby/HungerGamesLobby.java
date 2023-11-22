@@ -7,6 +7,7 @@ import dev.sylus.hungergameslobby.Files.Files;
 import dev.sylus.hungergameslobby.commands.GiveMachineTrident;
 import dev.sylus.hungergameslobby.commands.HologramTest;
 import dev.sylus.hungergameslobby.commands.SendPlayer;
+import dev.sylus.hungergameslobby.commands.SetState;
 import dev.sylus.hungergameslobby.enums.GameState;
 import dev.sylus.hungergameslobby.events.PlayerJoin;
 import dev.sylus.hungergameslobby.events.TridentMachineGun;
@@ -48,12 +49,13 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         hologram = new Hologram();
 
         getServer().getPluginManager().registerEvents(scorebord, this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases, files), this);
         getServer().getPluginManager().registerEvents(new TridentMachineGun(this), this);
 
         getCommand("hologramTest").setExecutor(new HologramTest(hologram)); // Test command please remove
         getCommand("giveMachineGun").setExecutor(new GiveMachineTrident());
         getCommand("sendPlayer").setExecutor(new SendPlayer());
+        getCommand("setState").setExecutor(new SetState(game, scorebord));
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
@@ -62,7 +64,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         Bukkit.getLogger().log(Level.INFO, "Lobby loaded");
         Logging.log(Level.INFO, "Finished initialised everything");
 
-        try {
+       /* try {
             File myObj = new File("filename.txt");
             if (myObj.createNewFile()) {
                 Logging.log(Level.INFO, "File created: " + myObj.getName());
@@ -72,6 +74,8 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
             Logging.log(Level.SEVERE, "An error occurred while trying to create a file: " + exception);
             Bukkit.getLogger().log(Level.SEVERE, "An error occurred while trying to create a file: " + exception);
         }
+        
+        */
     }
 
     @Override
