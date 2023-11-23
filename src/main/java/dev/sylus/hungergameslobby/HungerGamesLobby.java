@@ -48,8 +48,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         scorebord = new Scorebord(game, files, positionManager, databases);
         hologram = new Hologram();
 
-        getServer().getPluginManager().registerEvents(scorebord, this);
-        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases, files), this);
+        getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases, files, scorebord), this);
         getServer().getPluginManager().registerEvents(new TridentMachineGun(this), this);
 
         getCommand("hologramTest").setExecutor(new HologramTest(hologram)); // Test command please remove

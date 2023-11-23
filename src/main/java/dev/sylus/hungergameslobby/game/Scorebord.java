@@ -31,19 +31,6 @@ public class Scorebord implements Listener {
         gameNumber = 1; // Remember to change this
     }
 
-    @EventHandler
-    public void onPlayerJoin(PlayerJoinEvent event) {
-      /*  if (!(databases.isInDatabase(event.getPlayer().getUniqueId()))){
-            databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
-        }
-        if (!(databases.isPlayerInLocalData(event.getPlayer().getUniqueId()))){
-            databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
-        }
-        This is now done in the PlayerJoin class
-       */
-        createBoard(event.getPlayer());
-    }
-
     public void createBoard(Player player) { // If im calling referesh scorebord anyway, then why don't I just use refresh scorebord anyway
         manager = Bukkit.getScoreboardManager();
         board = manager.getNewScoreboard();

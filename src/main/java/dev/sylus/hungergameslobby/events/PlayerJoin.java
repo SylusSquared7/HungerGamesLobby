@@ -3,6 +3,7 @@ package dev.sylus.hungergameslobby.events;
 import dev.sylus.hungergameslobby.Files.Files;
 import dev.sylus.hungergameslobby.game.Game;
 import dev.sylus.hungergameslobby.Files.Databases;
+import dev.sylus.hungergameslobby.game.Scorebord;
 import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -18,10 +19,12 @@ public class PlayerJoin implements Listener {
     Game game;
     Databases databases;
     Files files;
-    public PlayerJoin(Game gameInstance, Databases databasesInstance, Files filesInstance){
+    Scorebord scorebord;
+    public PlayerJoin(Game gameInstance, Databases databasesInstance, Files filesInstance, Scorebord scorebordInstance){
         game = gameInstance;
         databases = databasesInstance;
         files = filesInstance;
+        scorebord = scorebordInstance;
     }
 
     @EventHandler
@@ -39,6 +42,8 @@ public class PlayerJoin implements Listener {
         } else {
             Logging.log(Level.INFO, "Player: " + player.getName() + " with UUID: " + player.getUniqueId().toString() + " joined");
         }
+
+        scorebord.createBoard(player);
 
         double x = files.getConfig("worldData").getInt("spawnLocationX");
         double y = files.getConfig("worldData").getInt("spawnLocationY");
