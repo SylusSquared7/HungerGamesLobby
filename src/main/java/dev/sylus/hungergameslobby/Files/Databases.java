@@ -5,9 +5,11 @@ import dev.sylus.hungergameslobby.utils.Logging;
 import dev.sylus.hungergameslobby.utils.PlayerData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.checkerframework.checker.units.qual.A;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
@@ -24,6 +26,7 @@ public class Databases {
     UUID playerUUID;
     PlayerData playerData;
     ArrayList<String> leaderboard = new ArrayList<>();
+    ArrayList<UUID> temporyPlayers = new ArrayList<>();
 
     public Databases(HungerGamesLobby hungerGamesLobby, Files filesInstance){ // Constructor
         main = hungerGamesLobby;
@@ -36,8 +39,9 @@ public class Databases {
         if (getLeaderboard().size() < 5){ // There are less than 5 players in the database, add dummy players
             for (int i = getLeaderboard().size(); i == 5; i++){
                 UUID uuid = UUID.randomUUID();
-                addNewPlayer(uuid, "Null");
-                addPlayerToLocalData(uuid);
+                addNewPlayer(uuid, "Nobody");
+                addPlayerToLocalData(uuid, "Nobody");
+                temporyPlayers.add(uuid);
                 Bukkit.getLogger().log(Level.INFO, "Created a dummy player with the UUID of: " + uuid);
                 Logging.log(Level.INFO, "Created a dummy player with the UUID of: " + uuid);
             }
@@ -57,14 +61,10 @@ public class Databases {
      */
 
     public void initialiseLocalData(){
-        ArrayList<String> databaseLeaderbord = getLeaderboard();
-        for (int i = 0; i < databaseLeaderbord.size(); i++){
-            addPlayerToLocalData(UUID.fromString(databaseLeaderbord.get(0)));
-            Logging.log(Level.INFO, "Added a tempory player to the local data, UUID: " + databaseLeaderbord.get(0));
-        }
+
     }
 
-    public void addPlayerToLocalData(UUID targetUUID){
+    public void addPlayerToLocalData(UUID targetUUID, String playerName){
         this.playerUUID = targetUUID;
 
         if (getPlayerData(playerUUID).get(2).equals( "error")){
@@ -72,7 +72,7 @@ public class Databases {
             Bukkit.getLogger().log(Level.SEVERE, "Database returned an error while trying to get the points for: " + targetUUID.toString());
         }
 
-        playerData = new PlayerData(playerUUID,  Integer.parseInt(getPlayerData(playerUUID).get(2)), 0, 0);
+        playerData = new PlayerData(playerUUID, playerName, Integer.parseInt(getPlayerData(playerUUID).get(2)), 0, 0);
         localDataMap.put(playerUUID, playerData);
         Logging.log(Level.INFO, "Attempted to add the UUID: " + targetUUID.toString() + " to the local player data");
     }
@@ -88,6 +88,10 @@ public class Databases {
             Logging.log(Level.SEVERE, "The data retrived for: " + uuid.toString() + " is null");
         }
         return retrivedData;
+    }
+
+    public Map<UUID, PlayerData> getDataMap(){
+        return localDataMap;
     }
 
     public void addPoints(UUID uuid, int pointsToAdd){

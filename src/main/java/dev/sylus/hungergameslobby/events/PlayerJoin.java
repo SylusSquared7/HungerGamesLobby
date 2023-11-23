@@ -33,7 +33,7 @@ public class PlayerJoin implements Listener {
         }
 
         if (!(databases.isPlayerInLocalData(player.getUniqueId()))){
-            databases.addPlayerToLocalData(player.getUniqueId());
+            databases.addPlayerToLocalData(player.getUniqueId(), player.getName());
             player.sendMessage(ChatColor.LIGHT_PURPLE + "Welcome to the HungerGames \nThe first game will start soon \nPlease wait");
             Logging.log(Level.INFO, "Player: " + player.getName() + " with UUID: " + player.getUniqueId().toString() + " joined the server for the first time");
         } else {

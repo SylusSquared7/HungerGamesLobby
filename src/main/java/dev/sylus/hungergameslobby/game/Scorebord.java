@@ -33,12 +33,14 @@ public class Scorebord implements Listener {
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        if (!(databases.isInDatabase(event.getPlayer().getUniqueId()))){
+      /*  if (!(databases.isInDatabase(event.getPlayer().getUniqueId()))){
             databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
         }
         if (!(databases.isPlayerInLocalData(event.getPlayer().getUniqueId()))){
             databases.addPlayerToLocalData(event.getPlayer().getUniqueId());
         }
+        This is now done in the PlayerJoin class
+       */
         createBoard(event.getPlayer());
     }
 
@@ -79,7 +81,7 @@ public class Scorebord implements Listener {
             score2.setScore(2);
         } else {
             Score score2 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints());
-            score2.setScore(2);  // Score2 is never set if this condition fails
+            score2.setScore(2);
         }
       //  if (!(positionManager.getPlayerLeaderbord().contains(player.getName()))){
             Score score1 = obj.getScore("§7.......");

@@ -4,12 +4,14 @@ import java.util.UUID;
 
 public class PlayerData {
     private UUID uuid; // Players UUID (Duh)
+    private String name;
     private int overallPoints; // The points from other games (as well as this one)
     private int gamePoints; // The points earned in this game
     private int currentKills; // The kills from this game
 
-    public PlayerData(UUID localUuid, int localOverallPoints, int localGamePoints, int localCurrentKills){
+    public PlayerData(UUID localUuid, String localName, int localOverallPoints, int localGamePoints, int localCurrentKills){
         this.uuid = localUuid;
+        this.name = localName;
         this.overallPoints = localOverallPoints;
         this.gamePoints = localGamePoints;
         this.currentKills = localCurrentKills;
@@ -18,6 +20,9 @@ public class PlayerData {
     // Getters and stuff
     public UUID getUuid(){
         return uuid;
+    }
+    public String getName(){
+        return name;
     }
 
     public int getCurrentPoints(){
@@ -46,5 +51,9 @@ public class PlayerData {
 
     public void setUuid (UUID newUUID){
         this.uuid = newUUID;
+    }
+
+    public void setName(String newName){
+        name = newName;
     }
 }
