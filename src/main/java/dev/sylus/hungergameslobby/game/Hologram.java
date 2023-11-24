@@ -1,5 +1,6 @@
 package dev.sylus.hungergameslobby.game;
 
+import dev.sylus.hungergameslobby.Files.Databases;
 import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -10,11 +11,20 @@ import org.bukkit.entity.EntityType;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 import java.util.logging.Level;
 
 public class Hologram {
     ArmorStand hologram;
     private List<ArmorStand> armorStands = new ArrayList<>();
+    Databases databases;
+    PositionManager positionManager;
+
+    public Hologram(Databases databasesInstance, PositionManager positionManagerInstance){
+        databases = databasesInstance;
+        positionManager = positionManagerInstance;
+    }
+
     public void initialiseLeaderbord(Location startLocation){
         World world = Bukkit.getWorld("world");
         double yOffset = 0; // Adjust the Y offset as needed
@@ -25,7 +35,7 @@ public class Hologram {
             if (i == 0){
                 armorStand.setCustomName("§b§lOverall Points");
             } else {
-                armorStand.setCustomName("§6Player" + String.valueOf(i) + " §7- §e" + (6 - i) * 200); // Dummy data
+                armorStand.setCustomName("§Nobody §7- §e" + (6 - i) * 200); // Dummy data
             }
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);
@@ -35,7 +45,12 @@ public class Hologram {
         Logging.log(Level.INFO, "Created the armourstand scoreboard");
     }
 
-    public void updateLeaderbord(){
-        World world = Bukkit.getWorld("world");
+    public void updateScores() {
+       for (int i = 1; i < armorStands.size(); i++) {
+            ArmorStand armorStand = armorStands.get(i);
+            armorStand.setCustomName("§6" + positionManager.getPlayerLeaderbord().get(i - 1) + " §7- §e" + databases.getLocalPlayerData(UUID.fromString(positionManager.getPlayerLeaderbord().get(i -1))));
+        }
+        Logging.log(Level.INFO, "Updated scores on the armor stands.");
     }
 }
+

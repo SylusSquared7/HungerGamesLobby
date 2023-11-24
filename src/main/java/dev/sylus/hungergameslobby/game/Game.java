@@ -3,7 +3,7 @@ package dev.sylus.hungergameslobby.game;
 import dev.sylus.hungergameslobby.enums.GameState;
 
 public class Game {
-    GameState currentState;
+    GameState currentState = GameState.PREGAME;
 
     public GameState getState(){
         return currentState;

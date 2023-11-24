@@ -35,7 +35,7 @@ public class Databases {
         password = files.getConfig("config.yml").getString("database.password");
 
         initialiseDatabase();
-
+/* I might not need this
         if (getLeaderboard().size() < 5){ // There are less than 5 players in the database, add dummy players
             for (int i = getLeaderboard().size(); i == 5; i++){
                 UUID uuid = UUID.randomUUID();
@@ -46,6 +46,8 @@ public class Databases {
                 Logging.log(Level.INFO, "Created a dummy player with the UUID of: " + uuid);
             }
         }
+
+ */
 
     }
 
@@ -119,6 +121,10 @@ public class Databases {
         playersData.setOverallPoints(0);
         playersData.setGamePoints(0);
         addPointsToDB(uuid);
+    }
+
+    public ArrayList<String> getLocalLeaderbord(){
+        return getLeaderboard();
     }
     // Local Data stuff ^^
     // -----------------------------------------------------------------------------------------------

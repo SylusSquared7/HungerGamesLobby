@@ -2,6 +2,7 @@ package dev.sylus.hungergameslobby.game;
 
 import dev.sylus.hungergameslobby.Files.Databases;
 import dev.sylus.hungergameslobby.Files.Files;
+import dev.sylus.hungergameslobby.enums.GameState;
 import dev.sylus.hungergameslobby.utils.Logging;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
@@ -38,6 +39,16 @@ public class Scorebord implements Listener {
         // obj.setDisplayName("");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
+        if (game.getState() == GameState.PREGAME){
+            nextMap = "Breeze Island";
+        } else if (game.getState() == GameState.GAMEONE || game.getState() == GameState.INTERMISSIONONE) {
+            nextMap = "Survival Games 4";
+        } else if (game.getState() == GameState.GAMETWO || game.getState() == GameState.INTERMISSIONTWO) {
+            nextMap = "Chernobyl 2015";
+        } else {
+            nextMap = "Game end";
+        }
+
         Score score7 = obj.getScore("§fNext map: " + nextMap);
         score7.setScore(7);
 
@@ -48,7 +59,10 @@ public class Scorebord implements Listener {
         score5.setScore(5);
 
         if (positionManager.getPlayerLeaderbord().get(0).equals(player.getName())){
-            Score score4 = obj.getScore("§6§kA§r§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            Score score4 = obj.getScore("§6§kA§r§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA"); // This will break with the temporary players :/
+            score4.setScore(4);
+        } else if (positionManager.getPlayerLeaderbord().get(0).equals("Nobody")) {
+            Score score4 = obj.getScore("§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a 0");
             score4.setScore(4);
         } else {
             Score score4 = obj.getScore("§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints());
@@ -58,6 +72,9 @@ public class Scorebord implements Listener {
         if (positionManager.getPlayerLeaderbord().get(1).equals(player.getName())){
             Score score3 = obj.getScore("§6§kA§r§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
             score3.setScore(3);
+        } else if (positionManager.getPlayerLeaderbord().get(1).equals("Nobody")) {
+            Score score3 = obj.getScore("§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a 0");
+            score3.setScore(3);
         } else {
             Score score3 = obj.getScore("§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints());
             score3.setScore(3);
@@ -65,6 +82,9 @@ public class Scorebord implements Listener {
 
         if (positionManager.getPlayerLeaderbord().get(2).equals(player.getName())){
             Score score2 = obj.getScore("§6§kA§r§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
+            score2.setScore(2);
+        } else if (positionManager.getPlayerLeaderbord().get(2).equals("Nobody")) {
+            Score score2 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a 0");
             score2.setScore(2);
         } else {
             Score score2 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints());
@@ -84,7 +104,18 @@ public class Scorebord implements Listener {
     }
 
     public void refreshScorebordAll() {
+        if (game.getState() == GameState.PREGAME){
+            nextMap = "Breeze Island";
+        } else if (game.getState() == GameState.GAMEONE || game.getState() == GameState.INTERMISSIONONE) {
+            nextMap = "Survival Games 4";
+        } else if (game.getState() == GameState.GAMETWO || game.getState() == GameState.INTERMISSIONTWO) {
+            nextMap = "Chernobyl 2015";
+        } else {
+            nextMap = "Game end";
+        }
+
         for (Player players : Bukkit.getOnlinePlayers()) {
+
             Score score7 = obj.getScore("§fNext map: " + nextMap);
             score7.setScore(7);
 
@@ -95,7 +126,10 @@ public class Scorebord implements Listener {
             score5.setScore(5);
 
             if (positionManager.getPlayerLeaderbord().get(0).equals(players.getName())){
-                Score score4 = obj.getScore("§6§kA§r§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                Score score4 = obj.getScore("§6§kA§r§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints() + "§6§kA"); // This will break with the temporary players :/
+                score4.setScore(4);
+            } else if (positionManager.getPlayerLeaderbord().get(0).equals("Nobody")) {
+                Score score4 = obj.getScore("§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a 0");
                 score4.setScore(4);
             } else {
                 Score score4 = obj.getScore("§e1st §f" + positionManager.getPlayerLeaderbord().get(0) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(0)).getUniqueId()).getCurrentPoints());
@@ -103,7 +137,10 @@ public class Scorebord implements Listener {
             }
 
             if (positionManager.getPlayerLeaderbord().get(1).equals(players.getName())){
-                Score score3 = obj.getScore("§6§kA §r§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                Score score3 = obj.getScore("§6§kA§r§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints() + "§6§kA");
+                score3.setScore(3);
+            } else if (positionManager.getPlayerLeaderbord().get(1).equals("Nobody")) {
+                Score score3 = obj.getScore("§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a 0");
                 score3.setScore(3);
             } else {
                 Score score3 = obj.getScore("§e2nd §f" + positionManager.getPlayerLeaderbord().get(1) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(1)).getUniqueId()).getCurrentPoints());
@@ -113,9 +150,12 @@ public class Scorebord implements Listener {
             if (positionManager.getPlayerLeaderbord().get(2).equals(players.getName())){
                 Score score2 = obj.getScore("§6§kA§r§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints() + "§6§kA");
                 score2.setScore(2);
+            } else if (positionManager.getPlayerLeaderbord().get(2).equals("Nobody")) {
+                Score score2 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a 0");
+                score2.setScore(2);
             } else {
                 Score score2 = obj.getScore("§e3rd §f" + positionManager.getPlayerLeaderbord().get(2) + " §a" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(2)).getUniqueId()).getCurrentPoints());
-                score2.setScore(2);  // Score2 is never set if this condition fails
+                score2.setScore(2);
             }
             //  if (!(positionManager.getPlayerLeaderbord().contains(player.getName()))){
             Score score1 = obj.getScore("§7.......");
