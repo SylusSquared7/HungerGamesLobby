@@ -24,6 +24,10 @@ commands:
     usage: /setState <args>
     permission: hungerGamesLobby.admin
 
+  updateLeaderboard:
+    description: refreshes the leaderbord
+    usage: /updateLeaderboard
+
 permissions:
   hungerGamesLobby.admin:
     description: allows the player to use administrator commands

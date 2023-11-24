@@ -4,10 +4,7 @@ import com.google.common.io.ByteArrayDataInput;
 import com.google.common.io.ByteStreams;
 import dev.sylus.hungergameslobby.Files.Databases;
 import dev.sylus.hungergameslobby.Files.Files;
-import dev.sylus.hungergameslobby.commands.GiveMachineTrident;
-import dev.sylus.hungergameslobby.commands.HologramTest;
-import dev.sylus.hungergameslobby.commands.SendPlayer;
-import dev.sylus.hungergameslobby.commands.SetState;
+import dev.sylus.hungergameslobby.commands.*;
 import dev.sylus.hungergameslobby.enums.GameState;
 import dev.sylus.hungergameslobby.events.PlayerJoin;
 import dev.sylus.hungergameslobby.events.TridentMachineGun;
@@ -41,12 +38,13 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         // Plugin startup logic
         logging = new Logging();
         serverUtil = new ServerUtil(this);
+        game = new Game();
         files = new Files(this, "worldData.yml");
         databases = new Databases(this, files);
-        game = new Game();
-        positionManager = new PositionManager(databases);
+        hologram = new Hologram(databases, positionManager);
+        positionManager = new PositionManager(databases, game);
         scorebord = new Scorebord(game, files, positionManager, databases);
-        hologram = new Hologram();
+
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases, files, scorebord), this);
         getServer().getPluginManager().registerEvents(new TridentMachineGun(this), this);
@@ -55,6 +53,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         getCommand("giveMachineGun").setExecutor(new GiveMachineTrident());
         getCommand("sendPlayer").setExecutor(new SendPlayer());
         getCommand("setState").setExecutor(new SetState(game, scorebord));
+        getCommand("updateLeaderboard").setExecutor(new UpdateLeaderbord(hologram));
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
