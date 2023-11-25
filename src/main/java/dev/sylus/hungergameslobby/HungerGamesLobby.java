@@ -41,8 +41,8 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         game = new Game();
         files = new Files(this, "worldData.yml");
         databases = new Databases(this, files);
-        hologram = new Hologram(databases, positionManager);
         positionManager = new PositionManager(databases, game);
+        hologram = new Hologram(databases, positionManager);
         scorebord = new Scorebord(game, files, positionManager, databases);
 
 

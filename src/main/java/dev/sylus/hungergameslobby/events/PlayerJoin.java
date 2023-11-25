@@ -45,9 +45,9 @@ public class PlayerJoin implements Listener {
 
         scorebord.createBoard(player);
 
-        double x = files.getConfig("worldData").getInt("spawnLocationX");
-        double y = files.getConfig("worldData").getInt("spawnLocationY");
-        double z = files.getConfig("worldData").getInt("spawnLocationZ");
+        double x = files.getConfig("worldData").getInt("worldData.spawnLocationX");
+        double y = files.getConfig("worldData").getInt("worldData.spawnLocationY");
+        double z = files.getConfig("worldData").getInt("worldData.spawnLocationZ");
         Location location = new Location(Bukkit.getWorld("world"), x, y, z);
         player.teleport(location);
 

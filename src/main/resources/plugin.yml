@@ -25,7 +25,7 @@ commands:
     permission: hungerGamesLobby.admin
 
   updateLeaderboard:
-    description: refreshes the leaderbord
+    description: refreshes the leaderboard
     usage: /updateLeaderboard
 
 permissions:

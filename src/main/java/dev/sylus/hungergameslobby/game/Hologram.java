@@ -29,13 +29,13 @@ public class Hologram {
         World world = Bukkit.getWorld("world");
         double yOffset = 0; // Adjust the Y offset as needed
 
-        for (int i = 0; i <= 6; i++) {
+        for (int i = 0; i <= 5; i++) {
             ArmorStand armorStand = (ArmorStand) startLocation.getWorld().spawnEntity(startLocation.clone().add(0, yOffset, 0), EntityType.ARMOR_STAND); // spawn(startLocation.clone().add(0, yOffset, 0), ArmorStand.class);
             armorStand.setVisible(false);
             if (i == 0){
                 armorStand.setCustomName("§b§lOverall Points");
             } else {
-                armorStand.setCustomName("§Nobody §7- §e" + (6 - i) * 200); // Dummy data
+                armorStand.setCustomName("§6Nobody §7- §e0"); // Dummy data
             }
             armorStand.setCustomNameVisible(true);
             armorStand.setGravity(false);
@@ -48,7 +48,11 @@ public class Hologram {
     public void updateScores() {
        for (int i = 1; i < armorStands.size(); i++) {
             ArmorStand armorStand = armorStands.get(i);
-            armorStand.setCustomName("§6" + positionManager.getPlayerLeaderbord().get(i - 1) + " §7- §e" + databases.getLocalPlayerData(UUID.fromString(positionManager.getPlayerLeaderbord().get(i -1))));
+            if (positionManager.getPlayerLeaderbord().get(i -1).equals("Nobody")){
+                armorStand.setCustomName("§6Nobody §7- §e " + 0);
+            } else {
+                armorStand.setCustomName("§6" + positionManager.getPlayerLeaderbord().get(i - 1) + " §7- §e" + databases.getLocalPlayerData(UUID.fromString(positionManager.getPlayerLeaderbord().get(i -1))));
+            }
         }
         Logging.log(Level.INFO, "Updated scores on the armor stands.");
     }
