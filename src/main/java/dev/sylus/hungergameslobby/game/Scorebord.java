@@ -36,7 +36,7 @@ public class Scorebord implements Listener {
         manager = Bukkit.getScoreboardManager();
         board = manager.getNewScoreboard();
         obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
-        obj.setDisplayName("");
+      //  obj.setDisplayName("");
         obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
         if (game.getState() == GameState.PREGAME){
@@ -115,6 +115,9 @@ public class Scorebord implements Listener {
         }
 
         for (Player players : Bukkit.getOnlinePlayers()) {
+            obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
+            //  obj.setDisplayName("");
+            obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             Score score7 = obj.getScore("§fNext map: " + nextMap);
             score7.setScore(7);
