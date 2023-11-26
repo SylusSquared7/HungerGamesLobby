@@ -51,7 +51,7 @@ public class Hologram {
             if (positionManager.getPlayerLeaderbord().get(i -1).equals("Nobody")){
                 armorStand.setCustomName("§6Nobody §7- §e " + 0);
             } else {
-                armorStand.setCustomName("§6" + positionManager.getPlayerLeaderbord().get(i - 1) + " §7- §e" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(i -1)).getUniqueId()));
+                armorStand.setCustomName("§6" + positionManager.getPlayerLeaderbord().get(i - 1) + " §7- §e" + databases.getLocalPlayerData(Bukkit.getPlayer(positionManager.getPlayerLeaderbord().get(i -1)).getUniqueId()).getCurrentPoints());
             }
         }
         Logging.log(Level.INFO, "Updated scores on the armor stands.");
