@@ -115,8 +115,13 @@ public class Scorebord implements Listener {
         }
 
         for (Player players : Bukkit.getOnlinePlayers()) {
-            obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
-            //  obj.setDisplayName("");
+            obj = board.getObjective("HungerGamesScorebord-1"); // board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
+
+            if (obj == null){
+                obj = board.registerNewObjective("HungerGamesScorebord-1", "dummy","§6§lThe Hunger Games");
+                obj.setDisplaySlot(DisplaySlot.SIDEBAR);
+            }
+
             obj.setDisplaySlot(DisplaySlot.SIDEBAR);
 
             Score score7 = obj.getScore("§fNext map: " + nextMap);
