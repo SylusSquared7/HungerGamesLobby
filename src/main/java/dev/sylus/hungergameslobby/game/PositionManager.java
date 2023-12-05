@@ -20,7 +20,7 @@ public class PositionManager {
         playerLeaderbord.add("Nobody");
         playerLeaderbord.add("Nobody");
         playerLeaderbord.add("Nobody");
-        playerLeaderbord.add("SylusSquared"); // Initializes the array with dummy players
+        playerLeaderbord.add("Nobody"); // Initializes the array with dummy players
     }
 
     public ArrayList<String> getPlayerLeaderbord(){

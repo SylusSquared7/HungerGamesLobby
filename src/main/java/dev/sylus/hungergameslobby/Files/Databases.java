@@ -126,6 +126,16 @@ public class Databases {
     public ArrayList<String> getLocalLeaderbord(){
         return getLeaderboard();
     }
+
+    public void updateData(){
+        UUID targetUUID;
+        for (Player players: Bukkit.getOnlinePlayers()){
+            targetUUID = players.getUniqueId();
+            playerData = new PlayerData(targetUUID, players.getName(), Integer.parseInt(getPlayerData(playerUUID).get(2)), 0, 0);
+            localDataMap.get(playerUUID).setGamePoints(Integer.parseInt(getPlayerData(targetUUID).get(2)));
+        }
+
+    }
     // Local Data stuff ^^
     // -----------------------------------------------------------------------------------------------
     // Database stuff
