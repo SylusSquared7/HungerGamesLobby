@@ -53,7 +53,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         getCommand("giveMachineGun").setExecutor(new GiveMachineTrident());
         getCommand("sendPlayer").setExecutor(new SendPlayer());
         getCommand("setState").setExecutor(new SetState(game, scorebord));
-        getCommand("updateLeaderboard").setExecutor(new UpdateLeaderbord(hologram));
+        getCommand("updateLeaderboard").setExecutor(new UpdateLeaderbord(hologram, positionManager));
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
