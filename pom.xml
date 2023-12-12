@@ -66,6 +66,11 @@
             <id>CodeMC</id>
             <url>https://repo.codemc.org/repository/maven-public/</url>
         </repository>
+
+        <repository>
+            <id>citizens-repo</id>
+            <url>https://maven.citizensnpcs.co/repo</url>
+        </repository>
     </repositories>
     <dependencies>
 
@@ -82,5 +87,18 @@
             <version>3.1.4</version>
         </dependency>
 
+        <dependency>
+            <groupId>net.citizensnpcs</groupId>
+            <artifactId>citizens-main</artifactId>
+            <version>2.0.30-SNAPSHOT</version>
+            <type>jar</type>
+            <scope>provided</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>*</groupId>
+                    <artifactId>*</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
     </dependencies>
 </project>
