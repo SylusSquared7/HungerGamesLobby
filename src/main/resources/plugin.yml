@@ -28,6 +28,10 @@ commands:
     description: refreshes the leaderboard
     usage: /updateLeaderboard
 
+  npcTest:
+    description: test command, creates an NPC where the player is standing
+    usage: /npcTest
+
 permissions:
   hungerGamesLobby.admin:
     description: allows the player to use administrator commands

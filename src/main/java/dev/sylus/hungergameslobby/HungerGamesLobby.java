@@ -31,6 +31,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
     Game game;
     Logging logging;
     ServerUtil serverUtil;
+    NpcUTIL npcUTIL;
 
     @Override
     public void onEnable() {
@@ -44,6 +45,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         positionManager = new PositionManager(databases, game);
         hologram = new Hologram(databases, positionManager);
         scorebord = new Scorebord(game, files, positionManager, databases);
+        npcUTIL = new NpcUTIL();
 
 
         getServer().getPluginManager().registerEvents(new PlayerJoin(game, databases, files, scorebord), this);
@@ -54,6 +56,7 @@ public final class HungerGamesLobby extends JavaPlugin implements PluginMessageL
         getCommand("sendPlayer").setExecutor(new SendPlayer());
         getCommand("setState").setExecutor(new SetState(game, scorebord));
         getCommand("updateLeaderboard").setExecutor(new UpdateLeaderbord(hologram, positionManager));
+        getCommand("npcTest").setExecutor(new CreateNPC(npcUTIL));
 
         this.getServer().getMessenger().registerOutgoingPluginChannel(this, "BungeeCord");
         this.getServer().getMessenger().registerIncomingPluginChannel(this, "BungeeCord", this);
