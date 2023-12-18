@@ -1,7 +1,6 @@
 package dev.sylus.hungergameslobby.commands;
 
-import dev.sylus.hungergameslobby.game.Hologram;
-import dev.sylus.hungergameslobby.game.PositionManager;
+import dev.sylus.hungergameslobby.utils.Logging;
 import dev.sylus.hungergameslobby.utils.NpcUTIL;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
@@ -26,7 +25,9 @@ public class CreateNPC implements CommandExecutor {
             Bukkit.getLogger().log(Level.WARNING, "Non player tried to execute a player only command");
             return true;
         }
+        sender.sendMessage(ChatColor.RED + "Tried to create an NPC at the location: " + ((Player) sender).getLocation().getBlockX() + ((Player) sender).getLocation().getBlockY() + ((Player) sender).getLocation().getBlockZ() + " with the name of: " + sender.getName());
         npcUTIL.createNPC(sender.getName(), ((Player) sender).getLocation());
+        Logging.log(Level.INFO, "Tried to create an NPC at the location: " + ((Player) sender).getLocation().getBlockX() + ((Player) sender).getLocation().getBlockY() + ((Player) sender).getLocation().getBlockZ() + " with the name of: " + sender.getName());
         return true;
     }
 }
